@@ -1,0 +1,749 @@
+/* ==========================================================================
+   STUDIO-GRADE ANIMATED BIRTHDAY SUITE FOR RAKSHITH (NOV 26)
+   100% PURE CODE & VECTOR • ZERO EXTERNAL IMAGES
+   ========================================================================== */
+
+:root {
+  --bg-core: #07080e;
+  --bg-card: rgba(18, 21, 33, 0.65);
+  --bg-card-hover: rgba(24, 28, 44, 0.85);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.2);
+  
+  --primary: #ff3366;
+  --primary-glow: rgba(255, 51, 102, 0.4);
+  --amber: #ffbe0b;
+  --amber-glow: rgba(255, 190, 11, 0.35);
+  --emerald: #06d6a0;
+  --emerald-glow: rgba(6, 214, 160, 0.35);
+  
+  --text-pure: #ffffff;
+  --text-high: #f0f2f8;
+  --text-muted: #8b92a8;
+  
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Grotesk', sans-serif;
+  
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-pill: 9999px;
+  
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.studio-dark {
+  font-family: var(--font-sans);
+  background-color: var(--bg-core);
+  color: var(--text-high);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ==========================================================================
+   AMBIENT BACKGROUND LIGHTING (ORBS)
+   ========================================================================== */
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  will-change: transform, opacity;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  top: -100px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(255, 51, 102, 0.6) 0%, rgba(255, 51, 102, 0) 70%);
+  animation: driftOrb1 16s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  width: 600px;
+  height: 600px;
+  top: 30%;
+  right: -200px;
+  background: radial-gradient(circle, rgba(6, 214, 160, 0.45) 0%, rgba(255, 190, 11, 0.25) 50%, transparent 75%);
+  animation: driftOrb2 20s ease-in-out infinite alternate;
+}
+
+@keyframes driftOrb1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, 80px) scale(1.15); }
+  100% { transform: translate(60px, 140px) scale(0.95); }
+}
+
+@keyframes driftOrb2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-100px, 90px) scale(1.2); }
+  100% { transform: translate(-50px, -60px) scale(0.9); }
+}
+
+/* Canvas Confetti Layer */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Page Layout */
+.layout-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 30px 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   NAVIGATION
+   ========================================================================== */
+.studio-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+}
+
+.pulse-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 10px var(--emerald);
+  animation: radarPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes radarPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+.date-text {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--amber);
+}
+
+.sound-chip {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-high);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s var(--ease-smooth);
+}
+
+.sound-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.sound-chip.active {
+  color: var(--emerald);
+  border-color: rgba(6, 214, 160, 0.4);
+  background: rgba(6, 214, 160, 0.08);
+}
+
+/* ==========================================================================
+   HERO PRESENTATION
+   ========================================================================== */
+.hero-stage {
+  text-align: center;
+  margin-bottom: 60px;
+  animation: heroEntrance 0.8s var(--ease-spring);
+}
+
+@keyframes heroEntrance {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge-wrap {
+  margin-bottom: 20px;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--primary);
+  background: rgba(255, 51, 102, 0.08);
+  border: 1px solid rgba(255, 51, 102, 0.2);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+}
+
+.pill-spark {
+  color: var(--amber);
+  animation: sparkSpin 3s linear infinite;
+}
+
+@keyframes sparkSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hero-headline {
+  font-size: clamp(2.4rem, 6.5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+
+.headline-sub {
+  display: block;
+  font-weight: 400;
+  color: var(--text-pure);
+  opacity: 0.92;
+}
+
+.headline-name {
+  display: inline-block;
+  font-weight: 800;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg, 
+    #ff3366 0%, 
+    #ffbe0b 35%, 
+    #ffffff 50%, 
+    #ffbe0b 65%, 
+    #ff3366 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerFlow 5s ease-in-out infinite;
+}
+
+@keyframes shimmerFlow {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-caption {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin: 0 auto 36px;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   STUDIO INTERACTIVE SVG CAKE
+   ========================================================================== */
+.cake-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cake-interact-zone {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.cake-interact-zone:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.cake-interact-zone:active {
+  transform: scale(0.98);
+}
+
+.cake-svg {
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.45));
+}
+
+/* Flame Animation */
+.flame-group {
+  transform-origin: 160px 53px;
+  transition: transform 0.4s var(--ease-spring), opacity 0.3s ease;
+}
+
+.flame-body {
+  animation: organicFlicker 1.8s ease-in-out infinite alternate;
+  transform-origin: 160px 53px;
+}
+
+@keyframes organicFlicker {
+  0% { transform: scale(1) rotate(-1deg); }
+  25% { transform: scale(1.04, 0.96) rotate(2deg); }
+  50% { transform: scale(0.97, 1.05) rotate(-2deg); }
+  75% { transform: scale(1.03, 0.98) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.flame-halo {
+  animation: haloBreath 2s ease-in-out infinite alternate;
+}
+
+@keyframes haloBreath {
+  0% { transform: scale(0.9); opacity: 0.12; }
+  100% { transform: scale(1.15); opacity: 0.28; }
+}
+
+/* Extinguished State */
+.flame-group.extinguished {
+  transform: scale(0);
+  opacity: 0;
+}
+
+/* Smoke rising */
+.smoke-group.active {
+  opacity: 1 !important;
+  animation: smokeFade 1.6s ease-out forwards;
+}
+
+.smoke-trail {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: drawSmoke 1.6s ease-out forwards;
+}
+
+@keyframes drawSmoke {
+  0% { stroke-dashoffset: 60; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes smokeFade {
+  0% { opacity: 0.8; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-25px); }
+}
+
+/* Interactive Hint */
+.interactive-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  margin-top: 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--amber);
+  transition: all 0.3s ease;
+}
+
+.hint-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--amber);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--amber);
+}
+
+/* Wish Card Dropdown */
+.studio-wish {
+  margin-top: 24px;
+  max-width: 500px;
+  width: 100%;
+  animation: wishDrop 0.5s var(--ease-spring);
+}
+
+.studio-wish.hidden {
+  display: none;
+}
+
+@keyframes wishDrop {
+  from { opacity: 0; transform: translateY(-12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.wish-glass-card {
+  background: rgba(6, 214, 160, 0.08);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(6, 214, 160, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
+
+.wish-icon-wrap {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.wish-copy h4 {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--emerald);
+  margin-bottom: 3px;
+}
+
+.wish-copy p {
+  font-size: 0.9rem;
+  color: var(--text-high);
+}
+
+/* ==========================================================================
+   3D TILT STATS MATRIX
+   ========================================================================== */
+.stats-section {
+  margin-bottom: 60px;
+}
+
+.section-meta {
+  margin-bottom: 22px;
+}
+
+.meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.meta-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.tilt-card {
+  perspective: 1000px;
+}
+
+.card-inner {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  transition: transform 0.25s var(--ease-spring), border-color 0.25s ease, background 0.25s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tilt-card:hover .card-inner {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+  transform: translateY(-4px);
+}
+
+.card-header-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.icon-bubble {
+  font-size: 1.3rem;
+}
+
+.card-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.gold-tag {
+  color: var(--amber);
+  background: rgba(255, 190, 11, 0.1);
+  border: 1px solid rgba(255, 190, 11, 0.2);
+}
+
+.card-metric {
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-pure);
+  margin-bottom: 4px;
+}
+
+.gold-metric {
+  color: var(--primary);
+}
+
+.card-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-high);
+  margin-bottom: 8px;
+}
+
+.card-desc {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+.featured-tilt .card-inner {
+  border-color: rgba(255, 51, 102, 0.25);
+  background: linear-gradient(135deg, rgba(255, 51, 102, 0.08) 0%, rgba(18, 21, 33, 0.7) 100%);
+}
+
+/* ==========================================================================
+   TREAT NEGOTIATION PORTAL (SPRING DODGE)
+   ========================================================================== */
+.treat-section {
+  margin-bottom: 60px;
+}
+
+.treat-glass-box {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 36px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.treat-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--amber);
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.treat-heading {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.treat-sub {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  max-width: 440px;
+  margin: 0 auto 28px;
+}
+
+.treat-action-arena {
+  position: relative;
+  min-height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.btn-studio {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 12px 26px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-spring);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary-glow {
+  background: linear-gradient(135deg, var(--emerald) 0%, #05a67c 100%);
+  color: #041a14;
+  box-shadow: 0 4px 20px var(--emerald-glow);
+}
+
+.btn-primary-glow:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 26px rgba(6, 214, 160, 0.5);
+}
+
+.btn-ghost-dodge {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  user-select: none;
+  transition: transform 0.2s var(--ease-spring), left 0.2s var(--ease-spring), top 0.2s var(--ease-spring);
+}
+
+.treat-status-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-height: 22px;
+}
+
+/* ==========================================================================
+   CURATED BIRTHDAY WISH & ACTIONS
+   ========================================================================== */
+.wish-section {
+  margin-bottom: 50px;
+}
+
+.curated-wish-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 34px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.curated-glow-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), var(--amber), transparent);
+}
+
+.curated-text {
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--text-high);
+  font-style: italic;
+  margin-bottom: 26px;
+}
+
+.curated-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pill-action {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.copy-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-pure);
+}
+
+.copy-pill:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.whatsapp-pill {
+  background: #25d366;
+  color: #06230f;
+  font-weight: 700;
+}
+
+.whatsapp-pill:hover {
+  background: #20ba5a;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.studio-footer {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 24px;
+}
+
+.studio-footer strong {
+  color: var(--text-high);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 600px) {
+  .layout-wrapper {
+    padding: 20px 16px 50px;
+  }
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .treat-glass-box {
+    padding: 28px 20px;
+  }
+  .curated-wish-card {
+    padding: 26px 20px;
+  }
+}
