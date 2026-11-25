@@ -23,7 +23,7 @@ export default function Navbar({ onCelebrate }) {
     <header className="studio-nav">
       <div className="date-badge">
         <span className="pulse-indicator" />
-        <span className="date-text">26 NOVEMBER • SPECIAL EDITION</span>
+        <span className="date-text">26 NOVEMBER • HAPPY BIRTHDAY</span>
       </div>
 
       <div className="nav-actions">
